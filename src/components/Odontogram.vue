@@ -4,12 +4,12 @@
       class="rounded text-white"
       style="background-color: #d0cd9a; padding: 6px;"
     >
-      Javascript Odontogram Demo
+      Odontograma Demo
     </h3>
     <div class="row p-3">
       <div class="col-lg-8 col-md-7 col-sm-12">
         <canvas
-          class="img-responsive border border-primary"
+          class="img-responsive border border-primary rounded"
           id="canvas"
           width="660"
           height="700"
@@ -20,11 +20,19 @@
         style="background-color: #d0cd9a; padding: 6px;"
       >
         <div class="form-group">
-          <b>Persona</b>
+          <b>Tipo Paciente</b>
           <select class="form-control form-control-sm">
-            <option selected disabled>--Seleccione Persona--</option>
+            <option selected disabled>--Seleccione Paciente--</option>
             <option>Adulto</option>
-            <option>Menor</option>
+            <option>Infantil</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <b>Posición</b>
+          <select class="form-control form-control-sm">
+            <option selected disabled>--Seleccione Posición--</option>
+            <option>Superior</option>
+            <option>Inferior</option>
           </select>
         </div>
         <div class="form-group">
@@ -118,6 +126,9 @@
           <textarea
             class="form-control form-control-sm border-patient-controls"
           />
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary btn-sm">Agregar</button>
         </div>
       </div>
     </div>
