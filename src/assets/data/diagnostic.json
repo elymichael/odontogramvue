@@ -1,0 +1,86 @@
+[
+    {
+      "name": "radioSano",
+      "value": "sano",
+      "label": "Sano",
+      "color": "#000000"
+    },
+    {
+      "name": "radioCaries",
+      "value": "caries",
+      "label": "Caries",
+      "color": "#FF0000"
+    },
+    {
+      "name": "radioSellante",
+      "value": "sellante",
+      "label": "Sellante",
+      "color": "#00FF00"
+    },
+    {
+      "name": "radioAmalgama",
+      "value": "amalgama",
+      "label": "Amalgama",
+      "color": "#808080"
+    },
+    {
+      "name": "radioComposite",
+      "value": "composite",
+      "label": "Composite",
+      "color": "#0000FF"
+    },
+    {
+      "name": "radioIncrustacion",
+      "value": "incrustacion",
+      "label": "Incrustacion",
+      "color": "#008080"
+    },
+    {
+      "name": "radioFxDentaria",
+      "value": "fxdentaria",
+      "label": "Fx Dentaria",
+      "color": "#000000"
+    },
+    {
+      "name": "radioSurcoProfundo",
+      "value": "surcoprofundo",
+      "label": "Surco Profundo",
+      "color": "#FFFF00"
+    },
+    {
+      "name": "radioEndodoncia",
+      "value": "endodoncia",
+      "label": "Endodoncia",
+      "color": "#000000"
+    },
+    {
+      "name": "radioPiezaAusente",
+      "value": "piezaausente",
+      "label": "Pieza Ausente",
+      "color": "#000000"
+    },
+    {
+      "name": "radioExtIndicada",
+      "value": "extindicada",
+      "label": "Ext Indicada",
+      "color": "#000000"
+    },
+    {
+      "name": "radioPiezaCoronada",
+      "value": "piezacoronada",
+      "label": "Pieza Coronada",
+      "color": "#000000"
+    },
+    {
+      "name": "radioImplante",
+      "value": "implante",
+      "label": "Implante",
+      "color": "#000000"
+    },
+    {
+      "name": "radioLCNC",
+      "value": "lcnc",
+      "label": "LCNC",
+      "color": "#000000"
+    }
+  ]
