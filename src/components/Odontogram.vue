@@ -21,30 +21,52 @@
       >
         <div class="form-group">
           <b>Tipo Paciente</b>
-          <select class="form-control form-control-sm">
-            <option selected disabled>--Seleccione Paciente--</option>
-            <option>Adulto</option>
-            <option>Infantil</option>
+          <select
+            v-model="data.patienttype"
+            class="form-control form-control-sm"
+          >
+            <option selected disabled value="">--Seleccione Paciente--</option>
+            <option value="adult">Adulto</option>
+            <option value="childish">Infantil</option>
           </select>
+          <div class="help-block" v-if="$v.data.patienttype.$error">
+            <small class="text-danger" v-if="!$v.data.patienttype.required"
+              >El campo es requerido</small
+            >
+          </div>
         </div>
         <div class="form-group">
           <b>Posición</b>
-          <select class="form-control form-control-sm">
-            <option selected disabled>--Seleccione Posición--</option>
-            <option>Superior</option>
-            <option>Inferior</option>
+          <select v-model="data.position" class="form-control form-control-sm">
+            <option selected disabled value="">--Seleccione Posición--</option>
+            <option value="sup">Superior</option>
+            <option value="inf">Inferior</option>
           </select>
+          <div class="help-block" v-if="$v.data.position.$error">
+            <small class="text-danger" v-if="!$v.data.position.required"
+              >El campo es requerido</small
+            >
+          </div>
         </div>
         <div class="form-group">
           <b>Pieza</b>
-          <select class="form-control form-control-sm">
+          <select v-model="data.tooth" class="form-control form-control-sm">
             <option selected disabled>--Seleccione Pieza--</option>
+            <option v-for="x in teeth" :key="x.name" :value="x.name">{{
+              x.label
+            }}</option>
           </select>
+          <div class="help-block" v-if="$v.data.tooth.$error">
+            <small class="text-danger" v-if="!$v.data.tooth.required"
+              >El campo es requerido</small
+            >
+          </div>
         </div>
         <div class="form-group">
           <h6><b>Cuadrante a Trabajar</b></h6>
           <div class="form-check form-check-inline">
             <input
+              v-model="data.quadrant.v"
               class="form-check-input"
               type="checkbox"
               name="checkboxCuadrante"
@@ -56,17 +78,7 @@
           </div>
           <div class="form-check form-check-inline">
             <input
-              class="form-check-input"
-              type="checkbox"
-              name="checkboxCuadrante"
-              id="checkboxCuadranteO"
-            />
-            <label class="form-check-label" for="checkboxCuadranteO">
-              O
-            </label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input
+              v-model="data.quadrant.d"
               class="form-check-input"
               type="checkbox"
               name="checkboxCuadrante"
@@ -78,6 +90,19 @@
           </div>
           <div class="form-check form-check-inline">
             <input
+              v-model="data.quadrant.o"
+              class="form-check-input"
+              type="checkbox"
+              name="checkboxCuadrante"
+              id="checkboxCuadranteO"
+            />
+            <label class="form-check-label" for="checkboxCuadranteO">
+              O
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              v-model="data.quadrant.m"
               class="form-check-input"
               type="checkbox"
               name="checkboxCuadrante"
@@ -89,6 +114,7 @@
           </div>
           <div class="form-check form-check-inline">
             <input
+              v-model="data.quadrant.p"
               class="form-check-input"
               type="checkbox"
               name="checkboxCuadrante"
@@ -101,9 +127,12 @@
         </div>
         <div class="form-group">
           <b>Diagnóstico</b>
-          <select class="form-control form-control-sm">
+          <select
+            v-model="data.diagnostic"
+            class="form-control form-control-sm"
+          >
             <option selected disabled>--Seleccione Diagnóstico--</option>
-            <option v-for="x in diagnostic" :key="x.name">
+            <option v-for="x in diagnostic" :key="x.name" :value="x.value">
               {{ x.name }}
             </option>
           </select>
@@ -111,6 +140,7 @@
         <div class="form-group">
           <div class="form-check form-check-inline">
             <input
+              v-model="data.treat"
               class="form-check-input"
               type="checkbox"
               name="checkboxTratar"
@@ -124,28 +154,74 @@
         <div class="form-group">
           <b>Detalle</b>
           <textarea
+            v-model="data.detail"
             class="form-control form-control-sm border-patient-controls"
           />
         </div>
         <div class="form-group">
-          <button class="btn btn-primary btn-sm">Agregar</button>
+          <button class="btn btn-primary btn-sm" @click="add">Agregar</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { required } from "vuelidate/lib/validators";
 import teethdata from "@/assets/data/teethdata.json";
 import diagnostic from "@/assets/data/diagnostic.json";
 
 export default {
   name: "odontogram",
   data: () => ({
+    data: {
+      position: "",
+      patienttype: "",
+      tooth: "",
+      diagnostic: "",
+      detail: "",
+      treat: false,
+      quadrant: {
+        v: false,
+        d: false,
+        o: false,
+        m: false,
+        p: false
+      }
+    },
     ctx: {},
     diagnostic: diagnostic,
-    odon: teethdata
+    odon: teethdata,
+    odonto: {
+      datalist: []
+    }
   }),
+  validations: {
+    data: {
+      position: { required },
+      patienttype: { required },
+      tooth: { required },
+      diagnostic: { required }
+    }
+  },
   methods: {
+    clean: function() {
+      this.data = {
+        position: "",
+        patienttype: "",
+        tooth: "",
+        diagnostic: "",
+        detail: "",
+        treat: false,
+        quadrant: {
+          v: false,
+          d: false,
+          o: false,
+          m: false,
+          p: false
+        }
+      };
+      self.ctx.fillStyle = "#000000";
+    },
     init: function() {
       var self = this;
       var canvas = document.getElementById("canvas");
@@ -201,19 +277,116 @@ export default {
         self.ctx.drawImage(this, info.imageposition.x, info.imageposition.y);
 
         for (let c of info.cuadrantes) {
-          self.drawRect(c.x, c.y);
+          self.drawRect(c.x, c.y, 0.4);
         }
       };
     },
-    drawRect: function(x, y) {
+    drawRect: function(x, y, ga) {
       let size = this.odon.settings.recSize;
       this.ctx.beginPath();
-      this.ctx.globalAlpha = 0.4;
+      this.ctx.globalAlpha = ga;
 
       this.ctx.fillRect(x, y, size, size);
 
       this.ctx.globalAlpha = 1;
       this.ctx.restore();
+    },
+    add: function() {
+      var self = this;
+      self.$v.$touch();
+
+      if (!self.$v.$invalid) {
+        self.$v.$reset();
+        const d = self.data;
+        const piece = self.odon.values.filter(
+          item =>
+            item.name == d.tooth &&
+            item.prefix == d.position &&
+            item.type == d.patienttype
+        );
+
+        if (piece.length >= 1) {
+          let arr = [];
+
+          if (d.quadrant.o) arr.push("o");
+
+          if (d.quadrant.v) arr.push("v");
+
+          if (d.quadrant.d) arr.push("d");
+
+          if (d.quadrant.m) arr.push("m");
+
+          if (d.quadrant.p) arr.push("p");
+
+          const diag = self.diagnostic.filter(x => x.value == d.diagnostic);
+          self.ctx.fillStyle = "#000000";
+          if (diag.length >= 1) {
+            self.ctx.fillStyle = diag[0].color;
+          }
+          for (let p of arr) {
+            let q = piece[0].cuadrantes.filter(i => i.name == p)[0];
+            if (q) {
+              self.drawRect(q.x, q.y, 1);
+            }
+          }
+          self.odonto.datalist.push(self.data);
+          this.clean();
+        }
+      }
+    }
+  },
+  computed: {
+    teeth: function() {
+      let result = [];
+      if (this.data.position == "" && this.data.patienttype == "") {
+        result = this.odon.values.map(item => {
+          return {
+            name: item.name,
+            label: item.value
+          };
+        });
+        return result;
+      }
+
+      if (this.data.position != "" && this.data.patienttype != "") {
+        result = this.odon.values
+          .filter(
+            x =>
+              x.prefix == this.data.position && x.type == this.data.patienttype
+          )
+          .map(item => {
+            return {
+              name: item.name,
+              label: item.value
+            };
+          });
+        return result;
+      }
+
+      if (this.data.position != "") {
+        result = this.odon.values
+          .filter(x => x.prefix == this.data.position)
+          .map(item => {
+            return {
+              name: item.name,
+              label: item.value
+            };
+          });
+        return result;
+      }
+
+      if (this.data.patienttype != "") {
+        result = this.odon.values
+          .filter(x => x.type == this.data.patienttype)
+          .map(item => {
+            return {
+              name: item.name,
+              label: item.value
+            };
+          });
+        return result;
+      }
+      return result;
     }
   },
   mounted() {
