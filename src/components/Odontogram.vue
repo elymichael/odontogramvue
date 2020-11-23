@@ -222,7 +222,7 @@ export default {
           p: false
         }
       };
-      self.ctx.fillStyle = defaultColor;
+      this.ctx.fillStyle = defaultColor;
     },
     init: function() {
       var self = this;
