@@ -170,6 +170,8 @@ import { required } from "vuelidate/lib/validators";
 import teethdata from "@/assets/data/teethdata.json";
 import diagnostic from "@/assets/data/diagnostic.json";
 
+const defaultColor = "#000000";
+
 export default {
   name: "odontogram",
   data: () => ({
@@ -220,7 +222,7 @@ export default {
           p: false
         }
       };
-      self.ctx.fillStyle = "#000000";
+      self.ctx.fillStyle = defaultColor;
     },
     init: function() {
       var self = this;
@@ -232,7 +234,7 @@ export default {
       self.ctx.restore();
 
       self.ctx.textAlign = "center";
-      self.ctx.fillStyle = "#000000";
+      self.ctx.fillStyle = defaultColor;
       self.ctx.font = "13px Arial";
       //Horizontal Line.
       self.drawLine(0, 340, 660, 340, "#C0C0C0");
@@ -319,7 +321,7 @@ export default {
           if (d.quadrant.p) arr.push("p");
 
           const diag = self.diagnostic.filter(x => x.value == d.diagnostic);
-          self.ctx.fillStyle = "#000000";
+          self.ctx.fillStyle = defaultColor;
           if (diag.length >= 1) {
             self.ctx.fillStyle = diag[0].color;
           }
