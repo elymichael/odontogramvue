@@ -163,6 +163,39 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div v-if="odonto.datalist.length > 0">
+          <table class="table">
+            <tr>
+              <th>
+                Pieza
+              </th>
+              <th>
+                Cuadrantes
+              </th>
+              <th>
+                Diagnóstico
+              </th>
+            </tr>
+            <tr v-for="(x, index) in odonto.datalist" :key="index">
+              <td>
+                {{ x.tooth }}
+              </td>
+              <td>
+                <pre>{{ x.quadrant }}</pre>
+              </td>
+              <td>
+                {{ x.diagnostic }}
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div v-else>
+          <span>No existen registros en el histórico.</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -300,41 +333,49 @@ export default {
       if (!self.$v.$invalid) {
         self.$v.$reset();
         const d = self.data;
-        const piece = self.odon.values.filter(
-          item =>
-            item.name == d.tooth &&
-            item.prefix == d.position &&
-            item.type == d.patienttype
-        );
 
-        if (piece.length >= 1) {
-          let arr = [];
-
-          if (d.quadrant.o) arr.push("o");
-
-          if (d.quadrant.v) arr.push("v");
-
-          if (d.quadrant.d) arr.push("d");
-
-          if (d.quadrant.m) arr.push("m");
-
-          if (d.quadrant.p) arr.push("p");
-
-          const diag = self.diagnostic.filter(x => x.value == d.diagnostic);
-          self.ctx.fillStyle = defaultColor;
-          if (diag.length >= 1) {
-            self.ctx.fillStyle = diag[0].color;
-          }
-          for (let p of arr) {
-            let q = piece[0].cuadrantes.filter(i => i.name == p)[0];
-            if (q) {
-              self.drawRect(q.x, q.y, 1);
-            }
-          }
+        if (self.fill(d)) {
           self.odonto.datalist.push(self.data);
           this.clean();
         }
       }
+    },
+    fill: function(d) {
+      var self = this;
+      const piece = self.odon.values.filter(
+        item =>
+          item.name == d.tooth &&
+          item.prefix == d.position &&
+          item.type == d.patienttype
+      );
+
+      if (piece.length >= 1) {
+        let arr = [];
+
+        if (d.quadrant.o) arr.push("o");
+
+        if (d.quadrant.v) arr.push("v");
+
+        if (d.quadrant.d) arr.push("d");
+
+        if (d.quadrant.m) arr.push("m");
+
+        if (d.quadrant.p) arr.push("p");
+
+        const diag = self.diagnostic.filter(x => x.value == d.diagnostic);
+        self.ctx.fillStyle = defaultColor;
+        if (diag.length >= 1) {
+          self.ctx.fillStyle = diag[0].color;
+        }
+        for (let p of arr) {
+          let q = piece[0].cuadrantes.filter(i => i.name == p)[0];
+          if (q) {
+            self.drawRect(q.x, q.y, 1);
+          }
+        }
+        return true;
+      }
+      return false;
     }
   },
   computed: {
